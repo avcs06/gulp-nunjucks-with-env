@@ -1,0 +1,39 @@
+{
+  "name": "gulp-nunjucks-with-env",
+  "version": "1.0.0",
+  "description": "Use Nunjucks Environment Class to get more control",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avcs06/gulp-nunjucks-with-env.git"
+  },
+  "keywords": [
+    "gulp",
+    "gulp-plugin",
+    "nunjucks",
+    "template",
+    "templating",
+    "moustache",
+    "render",
+    "html",
+    "environment",
+    "data"
+  ],
+  "author": "AvcS <avcs06@gmail.com> (http://www.avcs-tips.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avcs06/gulp-nunjucks-with-env/issues"
+  },
+  "homepage": "https://github.com/avcs06/gulp-nunjucks-with-env#readme",
+  "dependencies": {
+    "extend": "^3.0.0",
+    "nunjucks": "^2.2.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "gulp-util": "^3.0.7"
+  }
+}
