@@ -59,16 +59,44 @@ gulp.task('default', function () {
 });
 ```
 
+## Example : Using with pass by reference globals
+
+```js
+var gulp = require('gulp');
+var nunjucksRender = require('gulp-nunjucks-with-env');
+
+var environment = nunjucksRender.nunjucks.configure(['src/templates/']);
+environment.addFilter('stringify', function(obj) {
+    return JSON.stringify(obj);
+});
+var files = {widgetFiles : []};
+templateEngine = templateEngine.bind(templateEngine,environment,{},files);
+
+gulp.task('task', function () {
+	return gulp.src('src/templates/*.html')
+		.pipe(nunjucksRender())
+		.pipe(gulp.dest('dist'));
+});
+
+gulp.task('newtask',['task'],function() {
+  return gulp.src(files.widgetFiles)
+		.pipe(/*Some Task*/)
+});
+```
 
 ## API
 
-### nunjucksRender(environment, context)
+### nunjucksRender(environment, context, passByReferenceGlobals)
 
-<b>environment (optional) : </b>
+<b>environment (optional) `Environment Class` : </b>
   [`Environment Class`](https://mozilla.github.io/nunjucks/api.html#environment)
 
-<b>context (optional) : </b>
-  Same context as [`nunjucks.render()`](http://jlongster.github.io/nunjucks/api.html#render).
+<b>context (optional) `Object` : </b>
+  Same context as [`nunjucks.render()`](http://jlongster.github.io/nunjucks/api.html#render)
+  *Note : You will have to pass empty object {}, if you want to use passByReferenceGlobals*
+
+<b>passByReferenceGlobals (optional) `Object` : </b>
+  Parameters from this object will be added to context through pass by reference rather than pass by value
 
 <b>Example : </b>
 ```

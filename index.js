@@ -5,10 +5,10 @@ var through = require('through2');
 var nunjucks = require('nunjucks');
 nunjucks.configure({ watch: false });
 
-module.exports = function (env,options) {
-    if(env && !env instanceof nunjucks.Environment) {
-        options = env;
-        env = null;
+module.exports = function nunjucksRender(env,options,globals) {
+    if(typeof env == 'object' && !(env instanceof nunjucks.Environment)) {
+        if(options) return nunjucksRender.bind(nunjucksRender,undefined,env,options)();
+        else return nunjucksRender.bind(nunjucksRender,undefined,env)();
     }
 
     options = options || {};
@@ -29,6 +29,12 @@ module.exports = function (env,options) {
         }
 
         var data = extend(true,{},file.data||{},options);
+
+        if(globals) {
+            Object.keys(globals).forEach(function(key) {
+                data[key] = globals[key];
+            });
+        }
 
         if (file.isStream()) {
             this.emit('error', new gutil.PluginError('gulp-nunjucks', 'Streaming not supported'));
