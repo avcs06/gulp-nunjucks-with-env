@@ -3,7 +3,7 @@ var extend = require('extend');
 var gutil = require('gulp-util');
 var through = require('through2');
 var nunjucks = require('nunjucks');
-nunjucks.configure({ watch: false });
+var genv = nunjucks.configure({ watch: false });
 
 module.exports = function nunjucksRender(env,options,globals) {
     if(typeof env == 'object' && !(env instanceof nunjucks.Environment)) {
@@ -16,7 +16,7 @@ module.exports = function nunjucksRender(env,options,globals) {
     // ext = output file extension. Check if output file extension is mentioned or not
     if (!options.ext) options.ext = '.html'; // Apply default output extension
 
-    var compile = env||nunjucks;
+    var compile = env||genv;
     /*
      * file = file
      * cb   = callback function
@@ -43,7 +43,7 @@ module.exports = function nunjucksRender(env,options,globals) {
 
         var _this = this;
         try {
-            compile.renderString(file.contents.toString(), data, function (err, result) {
+            compile.renderString(file.contents.toString(), data, {path:file.path}, function (err, result) {
                 if (err) {
                   _this.emit('error', new gutil.PluginError('gulp-nunjucks', err));
                   return cb();
